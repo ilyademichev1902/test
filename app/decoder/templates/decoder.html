@@ -1,0 +1,44 @@
+{%extends "base.html" %}
+{% import "bootstrap5/form.html" as wtf %}
+{% block title %} ДеШифратор{% endblock %}
+{% block style %}
+.form-control {
+	height:40vh;
+} 
+{%endblock%}		
+
+{% block javascript %} 
+	<script>
+	const valid_pnr = /^\w{2}\s{0,1}\d{3,4}\s\w\s\w{5}\s\d\s\w{6}\s\w{3}\s+\w{4}\s\w{4}(\+1){0,1}\s+\w{3}\s\w\s\d$/gm;
+	const base_url  = "{{ url_for('codes.list_decoded') }}";	
+	//const base_url  = '/list_decoded/EN/';
+	</script>
+	
+	<script src="{{url_for('.static',filename='decoder.js') }}">	
+	</script>
+{%endblock%}
+		
+{% block content %} 
+<form action="" method="post" class="form" role="form">
+	{{ form.csrf_token }}
+	{{ wtf.render_field(form.gds_input) }}
+{# **{"oninput":"instant_decoder()"} #}	
+	{{ wtf.render_field(form.decoder_out) }}  
+</form>	
+{% endblock %}
+
+{% block pre_extra_menu %}
+	<div class="btn-group" role="group" id="copy-button" aria-label="copy_button">
+		<button type="button" class="btn btn-dark">Копировать</button>
+	</div>	
+
+	<select class="form-select form-select-lg" id="form-select" style="width:auto;" aria-label=".form-select-sm example">
+	<option value="EN" selected="selected">EN</option>
+	<option value="RU">RU</option>	
+	</select>
+
+<!--	<div class="btn-group languages"  >
+		<button type="button" class="btn en">EN</button>
+		<button type="button" class="btn ru" btn-light">RU</button>
+	</div>		-->
+{% endblock %}

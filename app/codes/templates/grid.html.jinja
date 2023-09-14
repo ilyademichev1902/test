@@ -1,0 +1,27 @@
+{%extends "base.html" %}
+{# This macros file is made available by FlaskGridify #}
+{% import "gridify/macros.html.jinja" as macros %}
+	{% block style %} 
+	.jsgrid {
+		margin-top:4vh;		
+		border: 1px solid black !important;
+	} 
+	{% endblock %}
+	{% block title %} Коды аэропортов {% endblock %}
+
+    {% block content %}
+
+    <div id="airport-grid"></div>
+    
+	{% endblock %}
+
+
+    {% block otherscripts %}
+    {# This macro is made available to any app using FlaskGridify
+        TODO: The GRID_REGISTRY is a global jinja variable added by extension
+        trying to remove the explicit need for it to be passed in #}
+	{{ macros.create_grid("airport-grid", "airport", GRID_REGISTRY["airport"]) }}
+    {% endblock %}
+
+    {% block tail %}
+    {% endblock %}

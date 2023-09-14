@@ -1,0 +1,5 @@
+flask_server.bat
+run.bat
+.venv/
+__pycache__/
+original/
