@@ -15,7 +15,7 @@ with current_app.app_context():
     dbe = current_app.config['db'] 
     if not os.path.exists(DB_PATH):
         inspector = inspect(dbe.engine)
-        current_app.logger.info(dir(inspector))
+        #current_app.logger.info(dir(inspector))
         if "airport" not in  inspector.get_table_names():
             dbe.drop_all()
             dbe.create_all()
