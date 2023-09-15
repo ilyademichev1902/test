@@ -32,6 +32,7 @@ class Config:
     DEBUG = True
     LOGGING_LEVEL = INFO
     LOGGING_FILE = 'logs/app.log'
+    LOG_WITH_GUNICORN = True
     SECRET_KEY = secrets.token_urlsafe(16)
     SQLALCHEMY_DATABASE_URI = DB_PATH
     SQLALCHEMY_TRACK_MODIFICATIONS = False

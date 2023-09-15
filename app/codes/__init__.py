@@ -5,7 +5,7 @@ from flask_gridify import FlaskGridify
 from .models import Airport
 from flask import current_app
 from config import DB_PATH
-
+from sqlalchemy import inspect 
 bp = Blueprint('codes', __name__,template_folder='templates')
 
 #current_app.logger.info(get_db_url())
@@ -14,13 +14,14 @@ bp = Blueprint('codes', __name__,template_folder='templates')
 with current_app.app_context():
     dbe = current_app.config['db'] 
     if not os.path.exists(DB_PATH):
-        inspector = sa.inspect(dbe)
-        if not inspector.has_table("airport"):
+        inspector = inspect(dbe.engine)
+        current_app.logger.info(dir(inspector))
+        if "airport" not in  inspector.get_table_names():
             dbe.drop_all()
             dbe.create_all()
             current_app.logger.info('Initialized the database!')
         else:
-            app.logger.info('Database already contains the airport table.')
+            current_app.logger.info('Database already contains the airport table.')
             #dbe.create_all()
     grid = FlaskGridify(current_app,flask_sqlalchemy_db=dbe, root_url_prefix='/grids')#, per_page_size=10)
     grid.gridify(Airport)    
