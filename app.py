@@ -1,4 +1,4 @@
-from project import create_app
+from app import create_app
 
 
 # Call the application factory function to construct a Flask application
