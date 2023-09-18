@@ -45,6 +45,6 @@ def create_app(config_class=Config):
     def test_page():
         return '<h1>Testing the Flask  Airport Application</h1>'
     
-    print(app.url_map)
+    #app.logger.info(str(app.url_map).join("\n"")
     
     return app

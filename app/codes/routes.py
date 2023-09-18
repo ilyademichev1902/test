@@ -1,11 +1,9 @@
 from app.codes import bp
 from flask import render_template,jsonify,request
 from app.processing import  gdsdecoder
-from .models import Airport
 
 @bp.route('/codes')
 def codes():
-    #grid.gridify(Airport)    
     return render_template("grid.html.jinja")
     
 @bp.route('/list_decoded/<language>/',defaults={'language':'EN'},methods=['POST'])

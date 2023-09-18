@@ -5,14 +5,34 @@
 	.jsgrid {
 		margin-top:4vh;		
 		border: 1px solid black !important;
+		border-radius: var(--bs-border-radius);
+		transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	} 
+	
+	.external-pager {
+        margin: 10px 0;
+    }
+
+	.external-pager .jsgrid-pager-current-page {
+            background: #c4e2ff;
+            color: #fff;
+	}
+	.jsgrid-grid-header .jsgrid-grid-body{
+		overflow-x: scroll!important;
+	}
+	
+	.jsgrid-pager-container {
+		display: block !important;
+	}
+	
 	{% endblock %}
 	{% block title %} Коды аэропортов {% endblock %}
 
     {% block content %}
 
     <div id="airport-grid"></div>
-    
+	<div id="externalPager" class="external-pager"></div>	    
+	
 	{% endblock %}
 
 

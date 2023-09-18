@@ -4,7 +4,9 @@ import secrets
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-DB_PATH  = f'sqlite:///{os.path.join(basedir, "airports.db")}'
+DB_PATH  = os.path.join(basedir, "airports.db")
+DB_PATH_URL  = f'sqlite:///{DB_PATH}'
+
 SEPARATOR = "."
 AIRPORTS = {
     "BGSF":"Сенре Стремфьорд",
@@ -34,5 +36,6 @@ class Config:
     LOGGING_FILE = 'logs/app.log'
     LOG_WITH_GUNICORN = True
     SECRET_KEY = secrets.token_urlsafe(16)
-    SQLALCHEMY_DATABASE_URI = DB_PATH
+    SQLALCHEMY_DATABASE_URI = DB_PATH_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    PREPOPULATE_DB_FILE  = "prep.csv"

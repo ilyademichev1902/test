@@ -1,5 +1,6 @@
 flask_server.bat
 run.bat
+airports.db
 .venv/
 __pycache__/
 original/
