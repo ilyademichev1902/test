@@ -9,11 +9,19 @@
 
 {% block javascript %} 
 	<script>
-	const valid_pnr = /^.*(?=.*\b[A-Z,А-Я][A-Z,А-Я,1-9][ ,-]{0,1}\d{3,4}\b){1}(?=.*\b[A-Z,А-ЯЁ]{3,4}[A-Z,А-ЯЁ]{3,4}\b){1}(?=(\b\d{4}\b.*?){2})(\b\d{4}\b).*$/gm;
-	//const valid_date = 
-	const valid_pnr = /^\w{2}\s{0,1}\d{3,4}\s\w\s\w{5}\s\d\s\w{6}\s\w{3}\s+\w{4}\s\w{4}(\+1){0,1}\s+\w{3}\s\w\s\d$/gm;
+//	номер рейса
+	const valid_flight = /\b[A-Z,А-Я][A-Z,А-Я,1-9][ ,-]{0,1}\d{3,4}\b/;
+//	маршрут
+	const valid_route = /\b[A-Z,А-ЯЁ]{3,4}[A-Z,А-ЯЁ]{3,4}/;
+//	дата 3 группы и общая группа
+	const valid_date =  /\b((\d{2})(\w{3})(\d{2}))\b/;
+//	время вылета и прилета в 2 группы
+	const valid_time = /(\d{4})\s(\d{4})/;
+//	с прилетом на следующий день в отдельной группе
+	const valid_time  = /(\d{4})\s(\d{4})(\+1){0,1}/;
+//	const valid_pnr_full_ver1 = /^.*(?=.*\b[A-Z,А-Я][A-Z,А-Я,1-9][ ,-]{0,1}\d{3,4}\b){1}(?=.*\b[A-Z,А-ЯЁ]{3,4}[A-Z,А-ЯЁ]{3,4}\b){1}(?=(\b\d{4}\b.*?){2})(\b\d{4}\b).*$/gm;
+//	const valid_pnr_full_ver2 = /^\w{2}\s{0,1}\d{3,4}\s\w\s\w{5}\s\d\s\w{6}\s\w{3}\s+\w{4}\s\w{4}(\+1){0,1}\s+\w{3}\s\w\s\d$/gm;
 	const base_url  = "{{ url_for('codes.list_decoded') }}";	
-	//const base_url  = '/list_decoded/EN/';
 	</script>
 	
 	<script src="{{url_for('.static',filename='decoder.js') }}">	
