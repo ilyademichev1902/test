@@ -49,8 +49,10 @@ async function instant_decoder(filled_form){
 	console.log(codes);
 	//are there any valid PNR strings?
 	for ( current_string in codes ){
-		if await pnr_string_is_valid(current_string){
-			valid_pnr_strings.push(current_string)
+		let is_valid = await pnr_string_is_valid(current_string);
+		if (is_valid)
+		{
+			valid_pnr_strings.push(current_string);
 		}
 	}
 	console.log(valid_pnr_strings);
@@ -68,14 +70,14 @@ async function instant_decoder(filled_form){
 	codes_url = url.concat('/', language_selected ).concat('/');	
 	//console.log(codes_url);
 	//codes = document.getElementById("gds_input").value = "Идет декодирование...";	
-	console.log(codes);
+	//console.log(codes);
 	document.getElementById("decoder_out").value = "Идет декодирование...";	
 	codes_in_json = {
 		headers: {
 		'Content-Type': 'application/json'
 		},
 		method: 'POST',
-		body: JSON.stringify(codes)
+		body: JSON.stringify(valid_pnr_strings)
 	}
 	console.log(codes_in_json);
 	try{
