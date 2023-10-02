@@ -30,11 +30,11 @@
 async function pnr_string_is_valid(pnr_string){
 	if (
 			((pnr_string.match(valid_flight) || []).length == 1)&&
-			((pnr_string.match(valid_route) || []).length == 2)&&
-			((pnr_string.match(valid_date) || []).length == 4)&&
+			((pnr_string.match(valid_route) || []).length == 3)&&
+			((pnr_string.match(valid_date) || []).length == 5)&&
 			(
-				((pnr_string.match(valid_time) || []).length == 2)||
-				((pnr_string.match(valid_time) || []).length == 3)
+				((pnr_string.match(valid_time) || []).length == 3)||
+				((pnr_string.match(valid_time) || []).length == 4)
 			)
 		)
 		return true;
