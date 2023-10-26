@@ -1,16 +1,3 @@
-//	номер рейса
-	const valid_flight = /\b[A-Z,А-Я][A-Z,А-Я,1-9][ ,-]{0,1}\d{3,4}\b/;
-//	маршрут
-	const valid_route = /\b([A-Z,А-ЯЁ]{3,4})([A-Z,А-ЯЁ]{3,4})/;
-//	дата 3 группы и общая группа
-	const valid_date =  /\b((\d{2})(\w{3})(\d{2}))\b/;
-//	время вылета и прилета в 2 группы
-//	const valid_time = /(\d{4})\s(\d{4})/;
-//	с прилетом на следующий день в отдельной группе
-	const valid_time  = /(\d{4})\s(\d{4})(\+1){0,1}/;
-//	const valid_pnr_full_ver1 = /^.*(?=.*\b[A-Z,А-Я][A-Z,А-Я,1-9][ ,-]{0,1}\d{3,4}\b){1}(?=.*\b[A-Z,А-ЯЁ]{3,4}[A-Z,А-ЯЁ]{3,4}\b){1}(?=(\b\d{4}\b.*?){2})(\b\d{4}\b).*$/gm;
-//	const valid_pnr_full_ver2 = /^\w{2}\s{0,1}\d{3,4}\s\w\s\w{5}\s\d\s\w{6}\s\w{3}\s+\w{4}\s\w{4}(\+1){0,1}\s+\w{3}\s\w\s\d$/gm;
-
  
 /*function instant_decoder(filled_form){
 	
@@ -27,35 +14,15 @@
 	});
 }*/
 
-async function pnr_string_is_valid(pnr_string){
-	if (
-			((pnr_string.match(valid_flight) || []).length == 1)&&
-			((pnr_string.match(valid_route) || []).length == 3)&&
-			((pnr_string.match(valid_date) || []).length == 5)&&
-			(
-				((pnr_string.match(valid_time) || []).length == 3)||
-				((pnr_string.match(valid_time) || []).length == 4)
-			)
-		)
-		return true;
-	else		
-		return false;
-}
-
 //calls decoder once textbox changes    
 async function instant_decoder(filled_form){
-	var valid_pnr_strings = [];
 	var codes =  document.getElementById("gds_input").value;
 	console.log(codes);
 	//are there any valid PNR strings?
-	for ( current_string in codes ){
-		let is_valid = await pnr_string_is_valid(current_string);
-		if (is_valid)
-		{
-			valid_pnr_strings.push(current_string);
-		}
+	if ((codes.match(valid_pnr) || []).length == 0) {
+		document.getElementById("decoder_out").value = "Ожидаю корректные данные";
+		return;
 	}
-	console.log(valid_pnr_strings);
 	//get the set language and launch the converter
 	//console.log(base_url)
 	parts = base_url.split('/');
