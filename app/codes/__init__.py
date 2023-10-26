@@ -7,6 +7,7 @@ from .models import Airport
 from flask import current_app
 from config import DB_PATH
 from sqlalchemy import MetaData, Table
+
 bp = Blueprint('codes', __name__,template_folder='templates')
 
 #current_app.logger.info(get_db_url())

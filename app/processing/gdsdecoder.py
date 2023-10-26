@@ -1,37 +1,43 @@
 from app.processing import processors
 from flask import current_app
-test_sample  ="IO-297 N 28APR23 ORLBGSF HS1 2040 0015"
-def decode_gds(sample):
-    decoded = ["рейс"]
-    try:
-        s = sample.split()
-        flight_code = s[0]
-        date = s[2]
-        from_to_airports = s[4]
-        from_time=s[6]
-        to_time=s[7]
-        decoded.append( flight_code )
-        try:
-            processors.process_airports(from_to_airports,decoded)
-        except KeyError:
-            return 'Аэропорт не найден в базе'
-        try:
-            processors.process_date(date,decoded)
-        except ValueError:
-            return 'Ошибка в формате даты'
-        try:
-            processors.process_time(from_time,decoded)
-        except ValueError:        
-           return 'Ошибка в формате времени'
-        try:
-            processors.process_time(to_time,decoded)
-        except ValueError:        
-           return 'Ошибка в формате времени'
-    except KeyError:
-        return 'Ошибка недостаточно полей в строке'
+import re
+from config import VALIDATOR_REGEX
 
-    return  " ".join(decoded)
+test_sample  ="IO-297 N 28APR23 ORLBGSF HS1 2040 0015"
+
+def decode_gds(sample,language,errors):
+    decoded = ["рейс"]
+    current_app.logger.info(sample)
+    current_app.logger.info(language)
+    for (_,v) in VALIDATOR_REGEX.items():
+        # current_app.logger.info(v)
+        current_app.logger.info(re.findall(re.compile(v),sample))
+        
+    if all([len(re.findall(re.compile(validator),sample)) == 1 for validator in VALIDATOR_REGEX.values()]):
+        flight_code = re.findall(re.compile(VALIDATOR_REGEX['valid_flight']),sample)[0]
+        from_to_airports = re.findall(re.compile(VALIDATOR_REGEX['valid_route']),sample)[0][0]
+        date =  re.findall(re.compile(VALIDATOR_REGEX['valid_date']),sample)[0]
+        from_to_time = re.findall(re.compile(VALIDATOR_REGEX['valid_time']),sample)[0]
+        from_time  = from_to_time[0]
+        to_time = from_to_time[1]
+        #(from_time, to_time) = re.sub(' +', ' ', from_to_time).split(" ") #remove repetitive spaces
+        decoded.append( flight_code )
+
+        
+        processors.process_airports(from_to_airports,language,decoded,errors)
+        processors.process_date(date,decoded,errors)
+        processors.process_time(from_time,decoded,errors)
+        processors.process_time(to_time,decoded,errors)
+    
+        return  " ".join(decoded)
+        
+    else:
+        errors.append(sample + "\n" + "Cтрока не соответствует формату. Отсутвует одно из полей.")        
+        return
+        
 
 if __name__ == '__main__':
-    print(decode_gds(test_sample))
+    errors=[]
+    print(decode_gds(test_sample,'RU',errors))
+    print(errors)
 

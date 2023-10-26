@@ -2,6 +2,9 @@ import logging
 import os
 from flask import Flask
 from config import Config
+from config import DECODER_JS_TEMPLATE_PATH
+from config import DECODER_JS_PATH
+from config import VALIDATOR_REGEX
 from flask_bootstrap import Bootstrap5, SwitchField
 from flask_gridify import FlaskGridify
 from flask_sqlalchemy import SQLAlchemy
@@ -10,6 +13,22 @@ from flask_wtf import FlaskForm, CSRFProtect
 #from flask_sqlalchemy import SQLAlchemy
 
 def create_app(config_class=Config):
+    #set validators for client side ,patch JS decoder
+    #add validators to js template file, save as a main file
+    with open(DECODER_JS_PATH,"w",encoding="utf-8") as jsf:
+        for (k,v) in VALIDATOR_REGEX.items():	
+            js_line = "const " + k +  "=/" + v + '/g;'    
+            jsf.write(js_line + "\n")
+        js_line_all_validators = "const valid_regex = [" + ",".join(VALIDATOR_REGEX) + "];"    
+        jsf.write(js_line_all_validators+"\n");    
+        #the rest of the code comes from template
+        with open(DECODER_JS_TEMPLATE_PATH,"r",encoding="utf-8") as jsft:    
+            jsf.write(jsft.read())
+            
+    #set supported languages
+    #for lang in config_class.LANGUAGE_SUPPORT:
+        
+
     app = Flask(__name__)    
     app.config.from_object(config_class)
 

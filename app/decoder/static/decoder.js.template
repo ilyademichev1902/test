@@ -1,4 +1,4 @@
- 
+
 /*function instant_decoder(filled_form){
 	
 	console.log("change");
@@ -14,15 +14,29 @@
 	});
 }*/
 
+async function pnr_string_is_valid(pnr_string){
+	//if any fails
+	//for ( const v of valid_regex ) {
+	//		console.log ( ( pnr_string.match(v) 	|| [] ).length  ) ;
+	//};//else
+	return valid_regex.every(vr => (pnr_string.match(vr) || []).length == 1);
+}
+
 //calls decoder once textbox changes    
 async function instant_decoder(filled_form){
-	var codes =  document.getElementById("gds_input").value;
-	console.log(codes);
+	var valid_pnr_strings = [];
+	var codes =  document.getElementById("gds_input").value.split(/\r?\n/);
+	//console.log(codes);
 	//are there any valid PNR strings?
-	if ((codes.match(valid_pnr) || []).length == 0) {
-		document.getElementById("decoder_out").value = "Ожидаю корректные данные";
-		return;
+	for (const current_string of codes ){
+		let is_valid = await pnr_string_is_valid(current_string);
+		if (is_valid)
+		{
+			console.log(current_string);
+			valid_pnr_strings.push(current_string);
+		}
 	}
+//	console.log(valid_pnr_strings);
 	//get the set language and launch the converter
 	//console.log(base_url)
 	parts = base_url.split('/');
