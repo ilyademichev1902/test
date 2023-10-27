@@ -8,7 +8,7 @@ VALID_PNR = r"^\w{2}\s{0,1}\d{3,4}\s\w\s\w{5}\s\d\s\w{6}\s\w{3}\s+\w{4}\s\w{4}(\
 class GDSDecoderForm(FlaskForm):
     #RadioField('Язык имени аэропорта:', choices=[('value','description'),('value_two','whatever')])
     gds_input = TextAreaField('', validators=[InputRequired()],render_kw={"oninput":"instant_decoder()"})
-    decoder_out = TextAreaField('')
+    decoder_out = TextAreaField('',render_kw={"style":"text-align:left"})
     submit = SubmitField('Декодировать')
     #_fields = [ gds_input,decoder_out,submit   ]
     #user = 'a'

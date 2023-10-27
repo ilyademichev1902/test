@@ -44,8 +44,8 @@ def process_airports(from_to_airports,language,decoded,errors):
     current_app.logger.info("from_to_airports:"+str(from_to_airports))
 
     length = len(from_to_airports) 
-    if length > 8:
-        errors.append("Рейс больше 8 символов.:"+from_to_airports)
+    if length > 8 or length < 6:
+        errors.append("Рейс больше 8ми символов или меньше 6ти.:"+from_to_airports)
         return
     elif length == 6 or length == 8:
         from_airport, to_airport = from_to_airports[:length//2], from_to_airports[length//2:]        
@@ -59,36 +59,39 @@ def process_airports(from_to_airports,language,decoded,errors):
             current_app.logger.error("No matching airport:"+e.args[0])
             errors.append("Аэропорт не найден:"+e.args[0])                
         return #symmetric case completed
-    
-    #assymetric case        
-    #if airport string is of 7 characters
-    #case 1 : 3 characters to first ,4 to second
-    from_airport = from_to_airports[:3]
-    to_airport = from_to_airports[3:]    
+    elif length == 7:
+        #assymetric case  length==7
+        #if airport string is of 7 characters
+        #case 1 : 3 characters to first ,4 to second
+        from_airport = from_to_airports[:3]
+        to_airport = from_to_airports[3:]    
 
-    current_app.logger.info("CASE 1 from_airport:"+from_airport)
-    current_app.logger.info("CASE 1 to_airport:"+to_airport)
-    try:
-            match_airport(from_airport)
-            match_airport(to_airport)
-    except ValueError:
-        current_app.logger.info("Wrong case : 3 to 4")
-        #case 2: 4 characters to first, 3 to second
-        from_airport = from_to_airports[:4]
-        to_airport = from_to_airports[4:]    
-
-        current_app.logger.info("CASE 2 from_airport:"+from_airport)
-        current_app.logger.info("CASE 2 to_airport:"+to_airport)
+        current_app.logger.info("CASE 1 from_airport:"+from_airport)
+        current_app.logger.info("CASE 1 to_airport:"+to_airport)
 
         try:
-            match_airport(from_airport)
-            match_airport(to_airport)
+                match_airport(from_airport)
+                match_airport(to_airport)
         except ValueError as e:
-            current_app.logger.info("Wrong case : 4 to 3")
+            current_app.logger.info("Wrong case : 3 to 4")
             current_app.logger.error("No matching airport:"+e.args[0])
             errors.append("Аэропорт не найден:"+e.args[0])
-        return #assymetric case completed
 
+            #case 2: 4 characters to first, 3 to second
+            from_airport = from_to_airports[:4]
+            to_airport = from_to_airports[4:]    
+
+            current_app.logger.info("CASE 2 from_airport:"+from_airport)
+            current_app.logger.info("CASE 2 to_airport:"+to_airport)
+
+            try:
+                match_airport(from_airport)
+                match_airport(to_airport)
+            except ValueError as e:
+                current_app.logger.info("Wrong case : 4 to 3")
+                current_app.logger.error("No matching airport:"+e.args[0])
+                errors.append("Аэропорт не найден:"+e.args[0])
+            return #assymetric case completed
 
     
 def process_date(date,decoded,errors):
@@ -99,20 +102,22 @@ def process_date(date,decoded,errors):
     #date_partial =  cre.findall(date)
     day = date[1]
     if int(day) < 1 or int(day) > 31:
-        errors.append("Ошибка в дне даты. День больше 31 или меньше 1.")
+        errors.append("Ошибка в дне даты. День больше 31 или меньше 1: "+date[1])
     year = ''  if date[3]=='' else config.YEAR_PREFIX + date[3]
     #cre = re.compile("\D+")
     #date_partial =  cre.findall(date)
     month = config.MONTHS.get(date[2], None)
+    current_app.logger.info(month)
     if month is None:
-        errors.append("Ошибка в месяце даты.")
+        errors.append("Ошибка в месяце даты." + date[2])
+        month = date[2]
     decoded.extend([day,month,year])
 
 def process_time(time_,decoded,errors):
     if len(time_[:2])  < 2 or ( int(time_[:2])<0 or int(time_[:2]) > 23):
-        errors.append("Ошибка в времени, неверно указан час:" + time_[2:])
+        errors.append("Ошибка в времени, неверно указан час: " + time_[:2])
     elif len(time_[2:])  < 2 or ( int(time_[2:])<0 or int(time_[2:]) > 59):
-        errors.append("Ошибка в времени, неверно указана минута:" + time_[2:])        
+        errors.append("Ошибка в времени, неверно указана минута: " + time_[2:])        
     else:
         decoded.append( time_[:2] + config.SEPARATOR  + time_[2:] )
     

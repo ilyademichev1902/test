@@ -12,6 +12,7 @@ def decode_gds(sample,language,errors):
     for (_,v) in VALIDATOR_REGEX.items():
         # current_app.logger.info(v)
         current_app.logger.info(re.findall(re.compile(v),sample))
+        current_app.logger.info(len(re.findall(re.compile(v),sample)))
         
     if all([len(re.findall(re.compile(validator),sample)) == 1 for validator in VALIDATOR_REGEX.values()]):
         flight_code = re.findall(re.compile(VALIDATOR_REGEX['valid_flight']),sample)[0]
@@ -23,20 +24,23 @@ def decode_gds(sample,language,errors):
         #(from_time, to_time) = re.sub(' +', ' ', from_to_time).split(" ") #remove repetitive spaces
         decoded.append( flight_code )
 
-        
+
         processors.process_airports(from_to_airports,language,decoded,errors)
         processors.process_date(date,decoded,errors)
         processors.process_time(from_time,decoded,errors)
         processors.process_time(to_time,decoded,errors)
-    
-        return  " ".join(decoded)
-        
+
+        #return  " ".join(decoded)
+        airport_max_str_length = 30
+        current_app.logger.info(decoded)
+        #return "test"
+        return f"{decoded[0]:4}{decoded[1]:>10}{decoded[2]:>{airport_max_str_length}}{decoded[3]:>{airport_max_str_length}}{decoded[4]:>3}{decoded[5]:>10}{decoded[6]:>5}{decoded[7]:>6}{decoded[8]:>6}"
     else:
         errors.append(sample + "\n" + "Cтрока не соответствует формату. Отсутвует одно из полей.")        
         return
         
 
-if __name__ == '__main__':
+if __name__ > '__main__':
     errors=[]
     print(decode_gds(test_sample,'RU',errors))
     print(errors)
