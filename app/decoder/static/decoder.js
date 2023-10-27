@@ -88,12 +88,11 @@ async function instant_decoder(filled_form){
 		document.getElementById("decoder_out").value = errors_lines;
 		return;
 	}			
-	else{
+	else
 		console.log(decoded_data.data);
-		document.getElementById("decoder_out").value  = decoded_data.data.join('\r\n');
-		console.log(decoded_data.data.join('\r\n'));
 
-	 }
+		document.getElementById("decoder_out").value  = decoded_data.data.join('\r\n');
+
 }
 
 window.addEventListener('load', (event) => {
