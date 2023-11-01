@@ -1,4 +1,4 @@
-const valid_flight=/(?:(?<=^)|(?<=\.)|(?<=\s))[A-Z,А-Я][A-Z,А-Я,1-9]\s{0,1}[ ,-]{0,1}\d{3,4}(?=\s|$)/g;
+const valid_flight=/(?:(?<=^)|(?<=\.)|(?<=\s))[1-9,A-Z,А-Я][A-Z,А-Я,1-9]\s{0,1}[ ,-]{0,1}\d{3,4}(?=\s|$)/g;
 const valid_route=/(?:(?<=^)|(?<=\.)|(?<=\s))(([A-Z,А-ЯЁ]{3,4})([A-Z,А-ЯЁ]{3,4}))(?=\s|$)/g;
 const valid_date=/(?:(?<=^)|(?<=\.)|(?<=\s))((\d{2})([A-Z,А-ЯЁ]{3})(\d{2}){0,1})(?=\s|$)/g;
 const valid_time=/(?:(?<=^)|(?<=\.)|(?<=\s))(\d{4})\s{1,}(\d{4})(\+1){0,1}(?=\s|$)/g;
@@ -88,11 +88,12 @@ async function instant_decoder(filled_form){
 		document.getElementById("decoder_out").value = errors_lines;
 		return;
 	}			
-	else
+	else{
 		console.log(decoded_data.data);
-
 		document.getElementById("decoder_out").value  = decoded_data.data.join('\r\n');
+		console.log(decoded_data.data.join('\r\n'));
 
+	 }
 }
 
 window.addEventListener('load', (event) => {

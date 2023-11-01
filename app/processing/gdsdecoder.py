@@ -34,7 +34,11 @@ def decode_gds(sample,language,errors):
         airport_max_str_length = 30
         current_app.logger.info(decoded)
         #return "test"
-        return f"{decoded[0]:4}{decoded[1]:>10}{decoded[2]:>{airport_max_str_length}}{decoded[3]:>{airport_max_str_length}}{decoded[4]:>3}{decoded[5]:>10}{decoded[6]:>5}{decoded[7]:>6}{decoded[8]:>6}"
+        #рейс   SU-1480                  Sheremetyevo-Emelyanovo 20   октябрь 2023 20.35-05.05
+        route = "-".join(decoded[2:4])
+        times = "-".join(decoded[7:]) 
+        #{route:>2*airport_max_str_length}                        
+        return f"{decoded[0]:4}{decoded[1]:>10} {route:30}{decoded[4]:>3}{decoded[5]:>10}{decoded[6]:>6} {times:10}"
     else:
         errors.append(sample + "\n" + "Cтрока не соответствует формату. Отсутвует одно из полей.")        
         return

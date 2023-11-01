@@ -46,7 +46,7 @@ DECODER_JS_TEMPLATE_PATH = os.path.join(basedir,"app","decoder","static","decode
 DECODER_JS_PATH = os.path.join(basedir,"app","decoder","static","decoder.js")                                        
 VALIDATOR_REGEX = {
 #	номер рейса
-'valid_flight' : '(?:(?<=^)|(?<=\.)|(?<=\s))[A-Z,А-Я][A-Z,А-Я,1-9]\s{0,1}[ ,-]{0,1}\d{3,4}(?=\s|$)',
+'valid_flight' : '(?:(?<=^)|(?<=\.)|(?<=\s))[1-9,A-Z,А-Я][A-Z,А-Я,1-9]\s{0,1}[ ,-]{0,1}\d{3,4}(?=\s|$)',
 #	маршрут
 'valid_route' : '(?:(?<=^)|(?<=\.)|(?<=\s))(([A-Z,А-ЯЁ]{3,4})([A-Z,А-ЯЁ]{3,4}))(?=\s|$)',
 #	дата 
