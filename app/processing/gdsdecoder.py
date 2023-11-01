@@ -6,7 +6,8 @@ from config import VALIDATOR_REGEX
 test_sample  ="IO-297 N 28APR23 ORLBGSF HS1 2040 0015"
 
 def decode_gds(sample,language,errors):
-    decoded = ["рейс"]
+    #decoded = ["рейс"]
+    decoded = []    
     current_app.logger.info(sample)
     current_app.logger.info(language)
     for (_,v) in VALIDATOR_REGEX.items():
@@ -35,10 +36,10 @@ def decode_gds(sample,language,errors):
         current_app.logger.info(decoded)
         #return "test"
         #рейс   SU-1480                  Sheremetyevo-Emelyanovo 20   октябрь 2023 20.35-05.05
-        route = "-".join(decoded[2:4])
-        times = "-".join(decoded[7:]) 
+        route = "-".join(decoded[1:3])
+        times = "-".join(decoded[6:]) 
         #{route:>2*airport_max_str_length}                        
-        return f"{decoded[0]:4}{decoded[1]:>10} {route:30}{decoded[4]:>3}{decoded[5]:>10}{decoded[6]:>6} {times:10}"
+        return f"{decoded[0]:>7}{decoded[3]:>3}{decoded[4]:>10}{decoded[5]:>6} {times:10} {route:30}"
     else:
         errors.append(sample + "\n" + "Cтрока не соответствует формату. Отсутвует одно из полей.")        
         return
