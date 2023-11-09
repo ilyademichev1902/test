@@ -20,7 +20,7 @@ def translate_airport(airport_code,language,decoded,errors):
         #     else:
         #         decoded.append(fa[0])       
 
-def process_airports(from_to_airports,language,decoded,errors):
+def process_airports(from_to_airports,language,decoded_airports,errors):
 
     def match_airport(airport):
         # from_airport_encoded  = config.AIRPORTS[from_airport]
@@ -32,13 +32,13 @@ def process_airports(from_to_airports,language,decoded,errors):
             #     stmt = session.select(Airport).where(Airport.Code == airport)
             #     res = session.execute(stmt)
             if not res:
-                decoded.append(airport)
+                decoded_airports.append(airport)
                 raise ValueError(airport)
             else:
                 if language=='ru':
-                    decoded.append(res.Ru)
+                    decoded_airports.append(res.Ru)
                 if language=='en':
-                    decoded.append(res.En)
+                    decoded_airports.append(res.En)
                 return                    
 
     current_app.logger.info("from_to_airports:"+str(from_to_airports))
@@ -94,7 +94,7 @@ def process_airports(from_to_airports,language,decoded,errors):
             return #assymetric case completed
 
     
-def process_date(date,decoded,errors):
+def process_date(date,errors):
     day = None
     year = None
     month = None
@@ -111,13 +111,13 @@ def process_date(date,decoded,errors):
     if month is None:
         errors.append("Ошибка в месяце даты." + date[2])
         month = date[2]
-    decoded.extend([day,month,year])
+    return (day,month,year)
 
-def process_time(time_,decoded,errors):
+def process_time(time_,errors):
     if len(time_[:2])  < 2 or ( int(time_[:2])<0 or int(time_[:2]) > 23):
         errors.append("Ошибка в времени, неверно указан час: " + time_[:2])
     elif len(time_[2:])  < 2 or ( int(time_[2:])<0 or int(time_[2:]) > 59):
         errors.append("Ошибка в времени, неверно указана минута: " + time_[2:])        
     else:
-        decoded.append( time_[:2] + config.SEPARATOR  + time_[2:] )
+        return time_[:2] + config.SEPARATOR  + time_[2:] 
     

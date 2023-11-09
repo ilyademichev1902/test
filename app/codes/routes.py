@@ -2,7 +2,7 @@ from app.codes import bp
 from flask import render_template,jsonify,request
 from app.processing import  gdsdecoder
 from flask import current_app
-
+import json
 @bp.route('/codes')
 def codes():
     return render_template("grid.html.jinja")
@@ -22,14 +22,17 @@ def list_decoded(language):
 
             for line in data_lines:
                 out.append( gdsdecoder.decode_gds(line , language_str, errors) )
-                current_app.logger.info(out)
-                current_app.logger.info(errors)        
+                #current_app.logger.info(out)
+                #current_app.logger.info(errors)        
+
+            current_app.logger.info(out)
+            current_app.logger.info(errors)        
             
             data_out = {}
         
             data_out = {
                 'language':language,
-                'data':out,
+                'data': json.dumps(out),
                 'errors':errors
             }
         else:          

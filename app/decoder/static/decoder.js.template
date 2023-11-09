@@ -84,10 +84,16 @@ async function instant_decoder(filled_form){
 		return;
 	}			
 	else{
-		console.log(decoded_data.data);
-		document.getElementById("decoder_out").value  = decoded_data.data.join('\r\n');
-		console.log(decoded_data.data.join('\r\n'));
-
+		console.log(Array(decoded_data.data));
+		//format string
+		let lines = [];
+		for (const line of JSON.parse(decoded_data.data)){			
+			console.log(line);
+			formatted_line = `${line.flight_code} ${line.day} ${line.month} ${line.year} ${line.from_time}-${line.to_time} ${line.from_airport}-${line['to_airport']`;
+			lines.push(formatted_line);
+		}
+		document.getElementById("decoder_out").value  = lines.join('\r\n');
+		console.log(decoded_data.data);//.join('\r\n'));
 	 }
 }
 
