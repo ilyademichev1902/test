@@ -33,12 +33,13 @@ def process_airports(from_to_airports,language,decoded_airports,errors):
             #     res = session.execute(stmt)
             if not res:
                 decoded_airports.append(airport)
+                current_app.logger.warning("AIRPORT NOT FOUND:"+airport)
                 raise ValueError(airport)
             else:
                 if language=='ru':
-                    decoded_airports.append(res.Ru)
+                    decoded_airports.append(airport if res.Ru == ''  else res.Ru)
                 if language=='en':
-                    decoded_airports.append(res.En)
+                    decoded_airports.append(airport if res.En == ''  else res.En)
                 return                    
 
     current_app.logger.info("from_to_airports:"+str(from_to_airports))

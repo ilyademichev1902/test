@@ -4,20 +4,6 @@ const valid_date=/(?:(?<=^)|(?<=\.)|(?<=\s))((\d{2})([A-Z,А-ЯЁ]{3})(\d{2}){0,
 const valid_time=/(?:(?<=^)|(?<=\.)|(?<=\s))(\d{4})\s{1,}(\d{4})(\+1){0,1}(?=\s|$)/g;
 const valid_regex = [valid_flight,valid_route,valid_date,valid_time];
 
-/*function instant_decoder(filled_form){
-	
-	console.log("change");
-	$.ajax({
-		url:'/list_codes',
-		type:'GET',
-		success: function(response){
-			console.log(response);
-		},
-		error: function(error) {
-			console.log(error);
-		}
-	});
-}*/
 
 async function pnr_string_is_valid(pnr_string){
 	//if any fails
@@ -94,8 +80,13 @@ async function instant_decoder(filled_form){
 		let lines = [];
 		for (const line of JSON.parse(decoded_data.data)){			
 			console.log(line);
-			formatted_line = `${line.flight_code} ${line.day} ${line.month} ${line.year} ${line.from_time}-${line.to_time} ${line.from_airport}-${line.to_airport}`;
-			lines.push(formatted_line);
+			//var sprintf = require("./sprintf.js");
+			let format_string = "%-7s %-2s %-8s %-4s %-5s-%-5s %s-%s" ;
+			let res = sprintf(format_string,line.flight_code, line.day, line.month, line.year, line.from_time,line.to_time, line.from_airport,line.to_airport);
+			console.log(res);
+			//formatted_line = `${line.flight_code} ${line.day} ${line.month} ${line.year} ${line.from_time}-${line.to_time} ${line.from_airport}-${line.to_airport}`;
+			//lines.push(formatted_line);
+			lines.push(res);
 		}
 		document.getElementById("decoder_out").value  = lines.join('\r\n');
 		console.log(decoded_data.data);//.join('\r\n'));
