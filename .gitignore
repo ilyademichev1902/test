@@ -1,7 +1,6 @@
 flask_server.bat
 run.bat
 airports.db
-.venv/*
-!.venv/Lib/site-packages/flask_restless/manager.py
+.venv/
 __pycache__/
 original/
