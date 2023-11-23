@@ -28,7 +28,7 @@ def decode_gds(sample,language,errors):
         processors.process_airports(from_to_airports,language,decoded_airports,errors)
         decoded['from_airport'] = decoded_airports[0]
         decoded['to_airport'] = decoded_airports[1]
-        decoded['day'],decoded['month'],decoded['year' ]= processors.process_date(date,errors)
+        decoded['day'],decoded['month'],decoded['year' ]= processors.process_date(date,language,errors)
         decoded['from_time'] = processors.process_time(from_time,errors)
         decoded['to_time'] = processors.process_time(to_time,errors)
 

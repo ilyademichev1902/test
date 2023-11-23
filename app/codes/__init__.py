@@ -42,7 +42,7 @@ with current_app.app_context():
         current_app.logger.info('Initialized the database!')
     else:
         current_app.logger.info('Database already exists.')
-
+ 
     grid = FlaskGridify(current_app,flask_sqlalchemy_db=dbe, root_url_prefix='/grids')#, per_page_size=10)
     grid.gridify(Airport)#,column_names=['a','b','c'])    
     

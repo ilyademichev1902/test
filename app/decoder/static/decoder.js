@@ -81,7 +81,7 @@ async function instant_decoder(filled_form){
 		for (const line of JSON.parse(decoded_data.data)){			
 			console.log(line);
 			//var sprintf = require("./sprintf.js");
-			let format_string = "%-7s %-2s %-8s %-4s %-5s-%-5s %s-%s" ;
+			let format_string = "%-7s %-2s %-8s %-4s    %-5s-%-5s %s-%s" ;
 			let res = sprintf(format_string,line.flight_code, line.day, line.month, line.year, line.from_time,line.to_time, line.from_airport,line.to_airport);
 			console.log(res);
 			//formatted_line = `${line.flight_code} ${line.day} ${line.month} ${line.year} ${line.from_time}-${line.to_time} ${line.from_airport}-${line.to_airport}`;

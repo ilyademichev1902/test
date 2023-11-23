@@ -95,7 +95,7 @@ def process_airports(from_to_airports,language,decoded_airports,errors):
             return #assymetric case completed
 
     
-def process_date(date,errors):
+def process_date(date,language,errors):
     day = None
     year = None
     month = None
@@ -107,7 +107,11 @@ def process_date(date,errors):
     year = ''  if date[3]=='' else config.YEAR_PREFIX + date[3]
     #cre = re.compile("\D+")
     #date_partial =  cre.findall(date)
-    month = config.MONTHS.get(date[2], None)
+    if language=='ru':        
+        month = config.MONTHS_RU.get(date[2], None)
+    if language=='en':        
+        month = config.MONTHS_EN.get(date[2], None)
+
     current_app.logger.info(month)
     if month is None:
         errors.append("Ошибка в месяце даты." + date[2])

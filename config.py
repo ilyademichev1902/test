@@ -14,7 +14,7 @@ AIRPORTS = {
     "LGW":"Гатвик",
     "YVR":"Янктон",
     "SEA":"Сиэтл"}
-MONTHS = {   
+MONTHS_RU = {   
     "JAN": "январь",
     "FEB": "февраль",
     "MAR": "март",
@@ -40,6 +40,35 @@ MONTHS = {
     "НОЯ": "ноябрь",
     "ДЕК": "декабрь"
     }
+
+MONTHS_EN = {   
+    "JAN": "January",
+    "FEB": "February",
+    "MAR": "March",
+    "APR": "April",
+    "MAY": "May",
+    "JUN": "June",
+    "JUL": "July",
+    "AUG": "August",
+    "SEP": "September",
+    "OCT": "October",
+    "NOV": "November",
+    "DEC": "December",
+    "ЯНВ": "January",
+    "ФЕВ": "February",
+    "МАР":  "March",
+    "АПР":  "April",
+    "МАЙ":  "May",
+    "ИЮН": "June",
+    "ИЮЛ":  "July",
+    "АВГ": "August",
+    "СЕН": "September",
+    "ОКТ": "October",
+    "НОЯ": "November",
+    "ДЕК": "December"
+    }
+
+
 YEAR_PREFIX = "20"
 
 DECODER_JS_TEMPLATE_PATH = os.path.join(basedir,"app","decoder","static","decoder.js.template")
