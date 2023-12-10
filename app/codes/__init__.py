@@ -39,9 +39,10 @@ PATCH_PATH = '.venv\Lib\site-packages\flask_restless\manager.py'
 is_windows = any(platform.win32_ver())
 #current_app.logger.info(any(platform.win32_ver()))
 if not is_windows:
-    cmd = 'ls'
-    out = check_output([cmd, '-l']) 
+    cmd = 'which'
+    out = check_output([cmd, ' -a python3']) 
     current_app.logger.info(out)
+#    open('')
 # else:    
     # cmd = 'dir'
     # out = check_output([cmd, '/Q']) 
