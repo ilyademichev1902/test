@@ -1,5 +1,7 @@
 import os
 import csv
+import platform
+from subprocess import check_output
 from flask import Blueprint
 from flask import Flask , current_app
 from flask_gridify import FlaskGridify
@@ -31,6 +33,19 @@ def prepopulate():
             current_app.logger.info(f'Database prepopulated.')# Inserted: {result.rowcount}')
     else:                
         current_app.logger.info('Prepopulate CSV file is not specified in PREPOPULATE_DB_FILE')
+
+#implement patch for long grid 20000 items
+PATCH_PATH = '.venv\Lib\site-packages\flask_restless\manager.py'
+is_windows = any(platform.win32_ver())
+#current_app.logger.info(any(platform.win32_ver()))
+if not is_windows:
+    cmd = 'ls'
+    out = check_output([cmd, '-l']) 
+    current_app.logger.info(out)
+# else:    
+    # cmd = 'dir'
+    # out = check_output([cmd, '/Q']) 
+    # current_app.logger.info(out)
             
 with current_app.app_context():
     dbe = current_app.config['db'] 
