@@ -39,9 +39,13 @@ PATCH_PATH = '.venv\Lib\site-packages\flask_restless\manager.py'
 is_windows = any(platform.win32_ver())
 #current_app.logger.info(any(platform.win32_ver()))
 if not is_windows:
-    cmd = 'which'
-    out = check_output([cmd, ' -a python3']) 
+    #cmd = 'which'
+    #out = check_output([cmd, ' -a python3']) 
+    #current_app.logger.info(out)
+    cmd = 'echo'
+    out = check_output([cmd, '$VIRTUAL_ENV']) 
     current_app.logger.info(out)
+
 #    open('')
 # else:    
     # cmd = 'dir'
